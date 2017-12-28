@@ -1,0 +1,68 @@
+Given a string and an integer k, you need to reverse the first k characters for every 2k characters counting from the start of the string. If there are less than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and left the other as original.
+Example:
+Input: s = "abcdefg", k = 2
+Output: "bacdfeg"
+Restrictions:
+The string consists of lower English letters only.
+Length of the given string and k will in the range [1, 10000]
+
+
+-------------------------------------------------------------------------------------------
+
+
+
+class Solution {
+    public String reverseStr(String s, int k) {
+        if (s == null || s.length() == 0 || k == 1)  return s;
+        
+        char[] ans = s.toCharArray();
+        
+        boolean reverse = true;
+        int index = 0;
+        while(index < ans.length)
+        {
+            if (reverse)
+            {
+                if (ans.length - index >= k)
+                {
+                    reverse(ans, index, index + k -1);
+                    
+                    index = index + k;
+                    reverse = false;
+                }
+                else
+                {
+                    reverse(ans, index, ans.length-1);                    
+                    index = ans.length;
+                }
+            }
+            else
+            {
+                if (ans.length - index >= k)
+                {
+                    index = index + k;
+                    reverse = true;
+                }
+                else
+                {
+                    index = ans.length;
+                }
+            }
+        }
+        
+        return String.valueOf(ans);
+    }
+    
+    public void reverse(char[] arr, int begin, int end)
+    {
+        int mid = begin + (end - begin)/2;
+        int len = begin + end;
+        for(int i = begin; i <= mid; i++)
+        {            
+            char c = arr[i];           
+            arr[i] = arr[len-i];           
+            arr[len-i] = c;     
+        }
+       
+    }
+}
