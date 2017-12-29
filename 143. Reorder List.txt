@@ -1,0 +1,74 @@
+Given a singly linked list L: L0¡úL1¡ú¡­¡úLn-1¡úLn,
+reorder it to: L0¡úLn¡úL1¡úLn-1¡úL2¡úLn-2¡ú¡­
+
+You must do this in-place without altering the nodes' values.
+
+For example,
+Given {1,2,3,4}, reorder it to {1,4,2,3}.
+
+
+---------------------------------------------------------------------------------
+
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null)  return;
+        
+        int len = 0;
+        ListNode l = head;
+        while(l!=null)
+        {
+            len++;
+            l = l.next;
+        }
+        
+        ListNode h1 = new ListNode(0);
+        h1.next = head;
+        ListNode curr = h1;
+        len = len/2;
+        while(len!=0)
+        {
+            curr = curr.next;
+            len--;
+        }
+        
+        ListNode h2 = new ListNode(0);
+        while(curr.next!=null)
+        {
+            ListNode t = curr.next;
+            curr.next = t.next;
+            t.next = h2.next;
+            h2.next = t;
+        }
+        
+        ListNode h3 = new ListNode(0);
+        curr = h3;
+        while(h1.next!=null && h2.next!=null)
+        {
+            ListNode node = h1.next;
+            h1.next = h1.next.next;
+            node.next = curr.next;
+            curr.next = node;
+            curr = curr.next;
+            node = h2.next;
+            h2.next = h2.next.next;
+            node.next = curr.next;
+            curr.next = node;
+            curr = curr.next;
+        }
+        
+        curr.next = h2.next;
+        head = h3.next;        
+
+        return;
+    }
+}
