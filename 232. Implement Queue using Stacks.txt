@@ -18,10 +18,8 @@ You may assume that all operations are valid (for example, no pop or peek operat
 class MyQueue {
 
     /** Initialize your data structure here. */
-    Stack<Integer> s = new Stack();
-    Stack<Integer> t = new Stack();
-    
-    
+    Stack<Integer>  stack = new Stack();
+    Stack<Integer>  temp = new Stack();
     
     public MyQueue() {
         
@@ -29,33 +27,33 @@ class MyQueue {
     
     /** Push element x to the back of queue. */
     public void push(int x) {
-        while(!s.isEmpty())
-        {
-            t.push(s.pop());
-        }
-        s.push(x);
-        while(!t.isEmpty())
-        {
-            s.push(t.pop());
-        }
+        while(!stack.isEmpty())
+            temp.push(stack.pop());
+        
+        stack.push(x);
+        while(!temp.isEmpty())
+            stack.push(temp.pop());
     }
     
     /** Removes the element from in front of queue and returns that element. */
     public int pop() {
-        while(s.size()>0)
-            return s.pop();
+        if(!stack.isEmpty())
+            return stack.pop();
         
-        throw new IllegalArgumentException("empty stack");
+        return -1;
     }
     
     /** Get the front element. */
     public int peek() {
-        return s.peek();
+        if(!stack.isEmpty())
+            return stack.peek();
+        
+        return -1;
     }
     
     /** Returns whether the queue is empty. */
     public boolean empty() {
-        return s.size() == 0;
+        return stack.isEmpty();
     }
 }
 
