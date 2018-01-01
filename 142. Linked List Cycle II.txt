@@ -46,52 +46,34 @@ public class Solution {
 ------------------------------------------------------------------------------------------------------
 
 
-public class Solution {
-    private ListNode getIntersect(ListNode head) {
-        ListNode tortoise = head;
-        ListNode hare = head;
+Define two pointers slow and fast. Both start at head node, fast is twice as fast as slow. If it reaches the end it means there is no cycle, otherwise eventually it will eventually catch up to slow pointer somewhere in the cycle.
 
-        // A fast pointer will either loop around a cycle and meet the slow
-        // pointer or reach the `null` at the end of a non-cyclic list.
-        while (hare != null && hare.next != null) {
-            tortoise = tortoise.next;
-            hare = hare.next.next;
-            if (tortoise == hare) {
-                return tortoise;
+Let the distance from the first node to the the node where cycle begins be A, and let say the slow pointer travels travels A+B. The fast pointer must travel 2A+2B to catch up. The cycle size is N. Full cycle is also how much more fast pointer has traveled than slow pointer at meeting point.
+
+A+B+N = 2A+2B
+N=A+B
+
+
+From our calculation slow pointer traveled exactly full cycle when it meets fast pointer, and since originally it travled A before starting on a cycle, it must travel A to reach the point where cycle begins! We can start another slow pointer at head node, and move both pointers until they meet at the beginning of a cycle.
+
+public class Solution {
+            public ListNode detectCycle(ListNode head) {
+                ListNode slow = head;
+                ListNode fast = head;
+        
+                while (fast!=null && fast.next!=null){
+                    fast = fast.next.next;
+                    slow = slow.next;
+                    
+                    if (fast == slow){
+                        ListNode slow2 = head; 
+                        while (slow2 != slow){
+                            slow = slow.next;
+                            slow2 = slow2.next;
+                        }
+                        return slow;
+                    }
+                }
+                return null;
             }
         }
-
-        return null;
-}
-
-    public ListNode detectCycle(ListNode head) {
-        if (head == null) {
-            return null;
-        }
-
-        // If there is a cycle, the fast/slow pointers will intersect at some
-        // node. Otherwise, there is no cycle, so we cannot find an entrance to
-        // a cycle.
-        ListNode intersect = getIntersect(head);
-        if (intersect == null) {
-            return null;
-        }
-
-        // To find the entrance to the cycle, we have two pointers traverse at
-        // the same speed -- one from the front of the list, and the other from
-        // the point of intersection.
-        ListNode ptr1 = head;
-        ListNode ptr2 = intersect;
-        while (ptr1 != ptr2) {
-            ptr1 = ptr1.next;
-            ptr2 = ptr2.next;
-        }
-
-        return ptr1;
-    }
-}
-
-
-Space complexity : O(1)
-
-Floyd's Tortoise and Hare algorithm allocates only pointers, so it runs with constant overall memory usage.
