@@ -1,0 +1,75 @@
+Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+
+For example,
+Given the following matrix:
+
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+You should return [1,2,3,6,9,8,7,4,5].
+
+
+------------------------------------------------------------------------------------------------
+
+
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        
+        List<Integer> ans = new ArrayList();
+        if (matrix == null || matrix.length == 0)
+            return ans;
+        
+        int upper = 0;
+        int lower = matrix.length-1;
+        int left = 0;
+        int right= matrix[0].length-1;
+        int total = matrix.length * matrix[0].length;
+        int index = 0;
+        
+        
+        
+        while(true)
+        {
+            for(int i = left; i <= right; i++)
+            {
+                 ans.add(matrix[upper][i]);
+                 index++;
+                 
+                //System.out.println(matrix[upper][i]);
+            }   
+            upper++;
+            if (index == total ) break;
+            for(int i = upper; i <= lower; i++)
+            {
+                 ans.add(matrix[i][right]);
+                 index++;
+                
+                //System.out.println(matrix[i][right]);
+            }
+            right--;
+            if (index == total ) break;
+            for(int i = right; i >= left; i--)
+            {
+                 ans.add(matrix[lower][i]);
+                 index++;
+                
+                //System.out.println(matrix[lower][i]);
+            }
+            lower--;
+            if (index == total ) break;
+            for(int i = lower; i >= upper; i--)
+            {
+                 ans.add(matrix[i][left]);
+                 index++;
+                
+                //System.out.println(matrix[left][i]);
+            }
+            left++;
+            if (index == total ) break;
+        }
+        
+        return ans;
+    }
+}
