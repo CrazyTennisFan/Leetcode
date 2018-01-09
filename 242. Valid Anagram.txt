@@ -32,22 +32,44 @@ Use a hash table instead of a fixed size counter. Imagine allocating a large siz
 
 
 class Solution {
-    
     public boolean isAnagram(String s, String t) {
+        if (s == null && t == null)  return true;
+        else if (s==null || t == null || s.length() != t.length())  return false;
         
-        if (s.length() != t.length()) {
-            return false;
+        HashMap<Character, Integer> map = new HashMap();
+        for(int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if(map.containsKey(c))
+            {
+                map.put(c, map.get(c) + 1);
+            }
+            else
+            {
+                map.put(c, 1);
+            }
         }
-        int[] table = new int[26];
-        for (int i = 0; i < s.length(); i++) {
-            table[s.charAt(i) - 'a']++;
-        }
-        for (int i = 0; i < t.length(); i++) {
-            table[t.charAt(i) - 'a']--;
-            if (table[t.charAt(i) - 'a'] < 0) {
+        
+        for(int i = 0; i < t.length(); i++)
+        {
+            char c = t.charAt(i);
+            if(map.containsKey(c))
+            {
+                map.put(c, map.get(c) - 1);
+            }
+            else
+            {
                 return false;
             }
         }
+        
+        for(char c:map.keySet())
+        {
+            if(map.get(c)!=0)  return false;
+        }
+        
         return true;
+        
+        
     }
 }
