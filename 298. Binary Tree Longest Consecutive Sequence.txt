@@ -1,0 +1,78 @@
+Given a binary tree, find the length of the longest consecutive sequence path.
+
+The path refers to any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The longest consecutive path need to be from parent to child (cannot be the reverse).
+
+For example,
+   1
+    \
+     3
+    / \
+   2   4
+        \
+         5
+Longest consecutive sequence path is 3-4-5, so return 3.
+   2
+    \
+     3
+    / 
+   2    
+  / 
+ 1
+Longest consecutive sequence path is 2-3,not3-2-1, so return 2
+
+
+--------------------------------------------------------------------------------------
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    
+    private int len = 0;
+    
+    public int longestConsecutive(TreeNode root) {
+        
+        if(root!=null)
+            getPath(root);
+        
+        return len;
+    }
+    
+    public int getPath(TreeNode node)
+    {
+        if(node.left == null && node.right == null)
+        {
+            if(len == 0) len++;
+            return 1;
+        }
+        
+        int left = node.left!=null?getPath(node.left):0;
+        int right = node.right!=null?getPath(node.right):0;        
+        
+        if(left!=0){
+            if (node.val+1 == node.left.val)
+                   len = Math.max(len, ++left);
+            else
+                left = 1;
+        }
+        
+        
+        if(right!=0){
+            if (node.val+1 == node.right.val)
+                   len = Math.max(len, ++right);
+            else
+                right = 1;
+        }
+         
+    
+        return Math.max(left, right);
+        
+    }
+}
