@@ -16,32 +16,29 @@ Output: 2
 Explanation: The square root of 8 is 2.82842..., and since we want to return an integer, the decimal part will be truncated.
 
 
-------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------.
 
 
 
 class Solution {
     public int mySqrt(int x) {
-        if (x == 0 || x == 1)  return x;
-        
         int low = 1;
         int high = x;
-        int mid = 0;
+        int ans = 0;
         while(low <= high)
         {
-            mid = low + (high-low)/2;           
-            if(mid == x/mid)  return mid;
-            else if (mid  < x/mid)
+            int mid = low + (high - low) / 2;
+            if (mid <= x / mid)
             {
-                if ((mid + 1) > x / (mid + 1))
-                    return mid;
-                else
-                    low = mid + 1;
+                low = mid + 1;
+                ans = mid;
             }
-            else high = mid-1;
-            
+            else
+            {
+                high = mid - 1;
+            }
         }
         
-        return mid;
+        return ans;
     }
 }
