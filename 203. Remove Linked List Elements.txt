@@ -6,9 +6,6 @@ Return: 1 --> 2 --> 3 --> 4 --> 5
 
 
 -------------------------------------------------------------------------------
-
-
-
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -19,15 +16,21 @@ Return: 1 --> 2 --> 3 --> 4 --> 5
  */
 class Solution {
     public ListNode removeElements(ListNode head, int val) {
-        if (head == null) return null;
-        
-        ListNode pointer = head;
-        while (pointer.next != null) {
-            if (pointer.next.val == val) pointer.next = pointer.next.next;
-            else pointer = pointer.next;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode t = dummy;
+        while(t.next!=null)
+        {
+            if(t.next.val == val)
+            {
+                t.next = t.next.next;
+            }
+            else
+            {
+                t = t.next;
+            }
         }
-    
-        return head.val == val ? head.next : head;
         
+        return dummy.next;
     }
 }
