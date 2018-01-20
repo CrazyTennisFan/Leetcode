@@ -17,26 +17,16 @@ Note: The input will be a non-empty word consisting of uppercase and lowercase l
 
 --------------------------------------------------------------------------------------------------------
 
-
-
 class Solution {
     public boolean detectCapitalUse(String word) {
-        if (word == null || word.length() == 0)
+        if (word.toUpperCase().equals(word))
             return true;
-        
-        if (word.toUpperCase().compareTo(word) == 0)
+        else if (word.toLowerCase().equals(word))
             return true;
-        if (word.toLowerCase().compareTo(word) == 0)
-            return true;
-        
-        for(int i = 1; i < word.length(); i++)
+        else
         {
-            if (word.charAt(i) -'A' <= 26 && word.charAt(i) -'A' >= 0)
-                return false;
+            String sub = word.substring(1);
+            return word.substring(1).toLowerCase().equals(sub);
         }
-        
-        
-        return true;
-     
     }
 }
