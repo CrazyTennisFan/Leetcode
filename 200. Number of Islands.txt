@@ -1,0 +1,127 @@
+Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+Example 1:
+
+11110
+11010
+11000
+00000
+Answer: 1
+
+Example 2:
+
+11000
+11000
+00100
+00011
+Answer: 3
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+class Solution {
+    
+    class Point{
+        public int x;
+        public int y;
+        
+        public Point(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    
+    public int numIslands(char[][] grid) {
+        
+        if (grid == null || grid.length == 0)
+        {
+            return 0;
+        }
+        
+        int row = grid.length;
+        int col = grid[0].length;
+        
+        boolean[][] visited = new boolean[row][col];
+        for(int i = 0; i < row; i++)
+        {
+            for(int j = 0; j < col; j++)
+            {
+                visited[i][j] = false;;
+            }
+        }
+        
+        int cnt = 0;
+        
+        for(int i = 0; i < row; i++)
+        {
+            for(int j = 0; j < col; j++)
+            {
+                if (visited[i][j] == true)
+                {
+                    continue;
+                }
+                else
+                {
+                    if(grid[i][j] == '0')
+                    {
+                        visited[i][j] = true;
+                    }
+                    else
+                    {
+                        visited[i][j] = true;
+                        gotoIsland(grid, visited, i, j);
+                        cnt++;
+                    }
+                }
+                
+                
+            }
+        }
+        
+        return cnt;    
+    }
+    
+    
+    public void gotoIsland(char[][] grid, boolean[][] visited, int x, int y)
+    {
+        int row = grid.length;
+        int col = grid[0].length;
+        
+        int[] dx = new int[]{1,0,-1,0};
+        int[] dy = new int[]{0,1,0,-1};
+        
+        Queue<Point> q = new LinkedList<>();
+        q.offer(new Point(x,y));
+        while(!q.isEmpty())
+        {
+            Point p = q.poll();
+            
+            for(int i = 0; i < dx.length; i++)
+            {
+                int next_x = p.x + dx[i];
+                int next_y = p.y + dy[i];
+                if(next_x < row && next_x >= 0 && next_y < col && next_y >= 0)
+                {
+                    if (grid[next_x][next_y] == '0' && !visited[next_x][next_y])
+                    {
+                        visited[next_x][next_y] = true;
+                    }
+                    else if (visited[next_x][next_y])
+                    {
+                        continue;
+                    }
+                    else{
+                        visited[next_x][next_y] = true;
+                        q.offer(new Point(next_x, next_y));    
+                    }
+                    
+                }
+            }
+           
+        }
+        
+    
+    }
+}
