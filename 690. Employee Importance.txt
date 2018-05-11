@@ -31,23 +31,19 @@ class Employee {
 */
 class Solution {
     public int getImportance(List<Employee> employees, int id) {
-        HashMap<Integer, Employee> map = new HashMap();
-        for(Employee e: employees)
+        int val = 0;
+        for(Employee e : employees)
         {
-            map.put(e.id, e);
+            if (e.id == id)
+            {
+                val += e.importance;
+                for(Integer i : e.subordinates)
+                {
+                    val += getImportance(employees, i);
+                }
+            }
         }
         
-        return dfs(id, map);    
-    }
-    
-    public int dfs(int id, HashMap<Integer, Employee> map)
-    {
-        Employee e = map.get(id);
-        int ans = e.importance;
-        for(Integer sub: e.subordinates)
-        {
-            ans += dfs(sub, map);
-        }
-        return ans;
+        return val;
     }
 }
