@@ -19,38 +19,36 @@ n is a non-negative integer which won't exceed the input array size.
 
 class Solution {
     public boolean canPlaceFlowers(int[] flowerbed, int n) {
-        if (n == 0) return true;
         
-        
-        if (flowerbed.length == 1)
-        {
-            if(flowerbed[0]==0)  return n<=1;
-            else return n==0;
-        }
-            
+        int total = 0;
+        int curZero = 0;
         
         for(int i = 0; i < flowerbed.length; i++)
         {
-            if(flowerbed[i] == 1) continue;
-            if(i==0 && flowerbed[i+1] == 0)
+            if (flowerbed[i] == 1)
             {
-                flowerbed[i] = 1;
-                n--;
+                curZero = 1;
+                continue;
             }
-            else if((i==flowerbed.length-1) && flowerbed[i-1] == 0)
+            else if(curZero == 1)
             {
-                flowerbed[i] = 1;
-                n--;
+                curZero = 0;
+                continue;
             }
-            else if ((i>0) && (i <flowerbed.length-1) && (flowerbed[i-1] == 0 && flowerbed[i+1] == 0))
+            
+            if(curZero == 0 && i+1 < flowerbed.length && flowerbed[i+1] == 0)
             {
-                flowerbed[i] = 1;
-                n--;
-            }      
-            if (n==0)
-                return true;
+                curZero++;
+                total++;
+                continue;
+            }
+            
+            if(i==flowerbed.length-1 && curZero == 0)
+            {
+                total++;
+            }
         }
         
-        return false;
+        return total >= n;
     }
 }
